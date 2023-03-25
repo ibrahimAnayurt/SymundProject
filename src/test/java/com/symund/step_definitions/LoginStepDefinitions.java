@@ -7,6 +7,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
 
 import java.net.URL;
@@ -61,5 +62,59 @@ public class LoginStepDefinitions {
 
         Assert.assertEquals(actualText,sentence);
     }
+
+
+    @Then("{string} can not logged in and displayed {string}")
+    public void user_can_not_logged_in_and_displayed(String username,String string) {
+
+        if (username.isEmpty()) {
+            String message = loginPage.inputUsername.getAttribute("validationMessage");
+            Assert.assertEquals(string, message);
+        } else {
+            String message1 = loginPage.inputPassword.getAttribute("validationMessage");
+            Assert.assertEquals(string, message1);
+        }
+    }
+
+    @Then("User should see the password in a form of dots by default")
+    public void user_should_see_the_password_in_a_form_of_dots_by_default() {
+        Assert.assertTrue(loginPage.inputPassword.getAttribute("type").equals("password"));
+    }
+
+
+    @Then("User can see the password explicitly")
+    public void user_can_see_the_password_explicitly() {
+        Assert.assertTrue(loginPage.inputPassword.getAttribute("type").equals("text"));
+    }
+
+    @When("User click to the eye sign button")
+    public void user_click_to_the_eye_sign_button() {
+        loginPage.eyeSign.click();
+    }
+
+    @When("User can see the forgot password button")
+    public void user_can_see_the_forgot_password_button() {
+        loginPage.forgotPasswordButton.isDisplayed();
+    }
+    @When("User click to the forgot password button")
+    public void user_click_to_the_forgot_password_button() {
+        loginPage.forgotPasswordButton.click();
+    }
+    @Then("User should see the reset password button")
+    public void user_should_see_the_reset_password_button() {
+        loginPage.resetPasswordButton.isDisplayed();
+    }
+
+    @When("user can see the valid placeholder on {string} field")
+    public void user_can_see_the_valid_placeholder_on_field(String string) {
+        String actualTextofUsername = loginPage.inputUsername.getAttribute("placeholder");
+        Assert.assertEquals(actualTextofUsername,string);
+    }
+    @When("user should see the valid placeholder on {string} field")
+    public void user_should_see_the_valid_placeholder_on_field(String string) {
+        String actualTextofPassword = loginPage.inputPassword.getAttribute("placeholder");
+        Assert.assertEquals(actualTextofPassword,string);
+    }
+
 
 }
